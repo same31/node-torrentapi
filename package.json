@@ -1,0 +1,20 @@
+{
+  "name": "torrentapi",
+  "version": "1.0.0",
+  "description": "library for RARBG's torrent api",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhnorskov/node-torrentapi.git"
+  },
+  "keywords": [
+    "torrentapi",
+    "rarbg"
+  ],
+  "author": "Rasmus Nørskov (rhnorskov)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rhnorskov/node-torrentapi/issues"
+  },
+  "homepage": "https://github.com/rhnorskov/node-torrentapi#readme"
+}
