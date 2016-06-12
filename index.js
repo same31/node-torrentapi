@@ -1,22 +1,22 @@
 var _ = require('underscore');
 var request = require('request');
 
-module.exports = function (name = "", options = {}) {
+module.exports = function (name = '', options = {}) {
     var token = null;
 
     var settings = _.extend({
         name: name,
-        url: "https://torrentapi.org/pubapi_v2.php"
+        url: 'https://torrentapi.org/pubapi_v2.php'
     }, options);
 
     var serialize = function (parameters) {
         var string = [];
         for (var p in parameters) {
             if (parameters.hasOwnProperty(p)) {
-                string.push(encodeURIComponent(p) + "=" + encodeURIComponent(parameters[p]));
+                string.push(encodeURIComponent(p) + '=' + encodeURIComponent(parameters[p]));
             }
         }
-        return string.join("&");
+        return string.join('&');
     };
 
     var get = function (parameters, callback) {
@@ -42,6 +42,7 @@ module.exports = function (name = "", options = {}) {
                 query(parameters, callback);
             });
         } else {
+            parameters.app_id = name;
             parameters.token = token;
             get(parameters, function (data) {
                 if (data.hasOwnProperty('error')) {
