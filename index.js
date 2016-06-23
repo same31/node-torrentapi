@@ -61,7 +61,7 @@ var TorrentAPI = function (name = '') {
         }
     };
 
-    this.list = function () {
+    this.list = function (params = {}) {
         var that = this;
         return new Promise(function (resolve) {
             params.mode = "list";
@@ -71,7 +71,7 @@ var TorrentAPI = function (name = '') {
         })
     };
 
-    this.search = function (params) {
+    this.search = function (params = {}) {
         var that = this;
         return new Promise(function (resolve) {
             params.mode = "search";
