@@ -1,6 +1,6 @@
 {
   "name": "torrentapi",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "library for RARBG's torrent api",
   "main": "index.js",
   "repository": {
