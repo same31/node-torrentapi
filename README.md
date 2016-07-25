@@ -1,1 +1,1 @@
-# node-torrentapi
+# node-rarbgto-api
