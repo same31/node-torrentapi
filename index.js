@@ -1,6 +1,6 @@
 var request = require('request');
 
-var serialize = function (params) {
+function _serialize (params) {
     var string = [];
     for (var p in params) {
         if (params.hasOwnProperty(p)) {
@@ -8,78 +8,72 @@ var serialize = function (params) {
         }
     }
     return string.join('&');
-};
+}
 
-var TorrentAPI = function (name = '') {
-    this.name = name;
-    this.url = 'https://torrentapi.org/pubapi_v2.php';
-    this.default = {};
+function TorrentAPI (name) {
+    var _url     = 'https://torrentapi.org/pubapi_v2.php',
+    _default = {}, _token;
 
-    var token = null;
-
-    this._get = function (params, callback) {
-        var query = this.url + '?' + serialize(params);
-        console.log(query);
-        request(query, function (err, res, doc) {
-            if (!err && res.statusCode == 200) {
+    function _get (params, callback) {
+        var query = _url + '?' + _serialize(params);
+        request(query, (err, res, doc) => {
+            if (!err && res.statusCode === 200) {
                 callback(JSON.parse(doc));
             }
         });
-    };
+    }
 
-    this._setToken = function (callback) {
-        this._get({"get_token": "get_token"}, function (res) {
+    function _setToken (callback) {
+        _get({ 'get_token': 'get_token' }, res => {
             if (res.hasOwnProperty('token')) {
-                token = res.token;
+                _token = res.token;
                 callback();
             }
         });
-    };
+    }
 
-    this._query = function (params, callback) {
-        var that = this;
-        if (token == null) {
-            that._setToken(function () {
-                that._query(params, callback);
-            })
-        } else {
-            params.app_name = this.name;
-            params.token = token;
-            that._get(Object.assign({}, that.default, params), function (res) {
+    function _query (params, callback) {
+        if (!_token) {
+            _setToken(() => {
+                _query(params, callback);
+            });
+        }
+        else {
+            params.app_id = name || '';
+            params.token  = _token;
+            _get(Object.assign({}, _default, params), res => {
                 if ([1, 2, 3, 4].indexOf(res['error_code']) > -1) {
-                    that._setToken(function () {
-                        that._query(params, callback);
-                    })
-                } else if (res['error_code'] == 5) {
-                    setTimeout(function () {
-                        that._query(params, callback);
-                    }, 2000);
-                } else {
-                    callback(res['torrent_results'])
+                    _setToken(() => {
+                        _query(params, callback);
+                    });
+                }
+                else if (res['error_code'] == 5) {
+                    setTimeout(() => {
+                        _query(params, callback);
+                    }, 2100);
+                }
+                else {
+                    callback(res['torrent_results']);
                 }
             });
         }
+    }
+
+    this.list = params => {
+        params || (params = {});
+        return new Promise(resolve => {
+            params.mode = 'list';
+            _query(params, resolve);
+        });
     };
 
-    this.list = function (params = {}) {
-        var that = this;
-        return new Promise(function (resolve) {
-            params.mode = "list";
-            that._query(params, function (res) {
-                resolve(res)
-            })
-        })
+    this.search = params => {
+        params || (params = {});
+        return new Promise(resolve => {
+            params.mode = 'search';
+            _query(params, resolve)
+        });
     };
-
-    this.search = function (params = {}) {
-        var that = this;
-        return new Promise(function (resolve) {
-            params.mode = "search";
-            that._query(params, function (res) {
-                resolve(res)
-            })
-        })
-    };
-};
+}
 
 module.exports = TorrentAPI;

@@ -1,24 +1,23 @@
 {
-  "name": "torrentapi",
-  "version": "1.0.4",
+  "name": "rarbgto-api",
+  "version": "2.0.0",
   "description": "library for RARBG's torrent api",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhnorskov/node-torrentapi.git"
+    "url": "git+https://github.com/same31/node-torrentapi.git"
   },
   "keywords": [
     "torrentapi",
     "rarbg"
   ],
-  "author": "Rasmus Nørskov (rhnorskov)",
-  "license": "ISC",
+  "author": "Matthieu Mitrani",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rhnorskov/node-torrentapi/issues"
+    "url": "https://github.com/same31/node-torrentapi/issues"
   },
-  "homepage": "https://github.com/rhnorskov/node-torrentapi#readme",
+  "homepage": "https://github.com/same31/node-torrentapi#readme",
   "dependencies": {
-    "request": "^2.72.0",
-    "underscore": "^1.8.3"
+    "request": "^2.74.0"
   }
 }
